@@ -370,7 +370,7 @@ static const char *pavucontrol[] = { "pavucontrol", NULL};
 static const char *onboardcmd[] = {"onboard", NULL};
 static const char *instantsettings[] = { "instantsettings", NULL};
 // static const char  *clickcmd[] = { "autoclicker", NULL };
-static const char  *codecmd[] = { "instantutils open graphicaleditor", NULL };
+static const char  *codecmd[] = { ".config/instantos/default/code", NULL };
 static const char  *startmenucmd[] = { "instantstartmenu", NULL };
 
 static const char *scrotcmd[] = {"scrot", NULL};                          // Take a screenshot
