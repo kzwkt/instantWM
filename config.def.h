@@ -277,12 +277,13 @@ static const char *tagsalt[] = { "", "{}", "$", "", "", "", "", "
 
 static const char scratchpadname[] = "instantscratchpad";
 
-static const char *upvol[] = {"/usr/share/instantassist/utils/p.sh", "+", NULL};
-static const char *downvol[] = {"/usr/share/instantassist/utils/p.sh", "-", NULL};
-static const char *mutevol[] = {"/usr/share/instantassist/utils/p.sh", "m", NULL};
+static const char *upvol[] = {"amixer", "set", "Master", "2%+", NULL};
+static const char *downvol[] = {"amixer", "set", "Master", "2%-", NULL};
+static const char *mutevol[] = {"amixer", "set", "Master", "toggle", NULL};
 
-static const char *upbright[] = {"/usr/share/instantassist/utils/b.sh", "+", NULL};
-static const char *downbright[] = {"/usr/share/instantassist/utils/b.sh", "-", NULL};
+static const char *upbright[] = {"light", "-A", "2", NULL};   
+static const char *downbright[] = {"light", "-U", "2", NULL}; 
+
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -291,19 +292,11 @@ static const Rule rules[] = {
 	 */
 	/* class                        instance  title  tags mask  isfloating  monitor */
 	{"Pavucontrol",                 NULL,     NULL,  0,         1,          -1},
-	{"Onboard",                     NULL,     NULL,  0,         1,          -1},
 	{"floatmenu",                   NULL,     NULL,  0,         1,          -1},
-	{"Welcome.py",                  NULL,     NULL,  0,         1,          -1},
-	{"Pamac-installer",             NULL,     NULL,  0,         1,          -1},
-	{"xpad",                        NULL,     NULL,  0,         1,          -1},
-	{"Guake",                       NULL,     NULL,  0,         1,          -1},
 	{"instantfloat",                NULL,     NULL,  0,         2,          -1},
 	{scratchpadname,                NULL,     NULL,  0,         4,          -1},
-	{"kdeconnect.daemon",           NULL,     NULL,  0,         3,          -1},
 	{"Panther",                     NULL,     NULL,  0,         3,          -1},
-	{"org-wellkord-globonote-Main", NULL,     NULL,  0,         1,          -1},
 	{"Peek",                        NULL,     NULL,  0,         1,          -1},
-	{"ROX-Filer",                   NULL,     NULL,  0,         0,          -1},
 };
 
 /* layout(s) */
@@ -353,7 +346,6 @@ static const char *termscratchcmd[] = {".config/instantos/default/terminal", "-c
 static const char *quickmenucmd[] = {"quickmenu", NULL};
 static const char *instantassistcmd[] = {"instantassist", NULL};
 static const char *instantrepeatcmd[] = {"instantrepeat", NULL};
-static const char *instantpacmancmd[] = {"instantpacman", NULL};
 static const char *instantsharecmd[] = {"instantshare", "snap", NULL};
 static const char *nautiluscmd[] = {".config/instantos/default/filemanager", NULL};
 static const char *slockcmd[] = {".config/instantos/default/lockscreen", NULL};
@@ -367,7 +359,6 @@ static const char *iswitchcmd[] = {"iswitch", NULL};
 static const char *instantswitchcmd[] = {"rofi", "-show", "window", "-kb-row-down", "Alt+Tab,Down", "-kb-row-up", "Alt+Ctrl+Tab,Up", "-kb-accept-entry", "!Alt_L,!Alt+Tab,Return", "-me-select-entry", "", "-me-accept-entry", "MousePrimary", NULL};
 static const char *caretinstantswitchcmd[] = {"rofi", "-show", "window", "-kb-row-down", "Alt+Tab,Down", "-kb-row-up", "Alt+Ctrl+Tab,Up", "-kb-accept-entry", "!Alt_L,!Alt+Tab,Return", "-me-select-entry", "", "-me-accept-entry", "MousePrimary", "-theme", "/usr/share/instantdotfiles/rootconfig/rofi/appmenu.rasi", NULL};
 static const char *instantskippycmd[] = {"instantskippy", NULL};
-static const char *onboardcmd[] = {"onboard", NULL};
 static const char *instantshutdowncmd[] = {"instantshutdown", NULL};
 static const char *systemmonitorcmd[] = {".config/instantos/default/systemmonitor", NULL};
 static const char *notifycmd[] = {"instantnotify", NULL};
@@ -381,10 +372,11 @@ static const char *instantsettings[] = { "instantsettings", NULL};
 static const char  *codecmd[] = { "instantutils open graphicaleditor", NULL };
 static const char  *startmenucmd[] = { "instantstartmenu", NULL };
 
-static const char  *scrotcmd[] = { "/usr/share/instantassist/assists/s/s.sh", NULL };
-static const char  *fscrotcmd[] = { "/usr/share/instantassist/assists/s/m.sh", NULL };
-static const char  *clipscrotcmd[] = { "/usr/share/instantassist/assists/s/c.sh", NULL };
-static const char  *fclipscrotcmd[] = { "/usr/share/instantassist/assists/s/f.sh", NULL };
+static const char *scrotcmd[] = {"scrot", NULL};                          // Take a screenshot
+static const char *fscrotcmd[] = {"scrot", "-f", NULL};                    // Select a region to screenshot
+static const char *clipscrotcmd[] = {"scrot", "-e", "mv $f ~/Pictures/", NULL}; // Take a screenshot and save it to ~/Pictures
+static const char *fclipscrotcmd[] = {"scrot", "-f", "-e", "mv $f ~/Pictures/", NULL}; // Select a region and save to ~/Pictures
+
 
 static const char  *firefoxcmd[] = { ".config/instantos/default/browser", NULL };
 static const char  *editorcmd[] = { ".config/instantos/default/editor", NULL };
@@ -392,7 +384,6 @@ static const char  *editorcmd[] = { ".config/instantos/default/editor", NULL };
 static const char *playernext[] = { "playerctl", "next", NULL};
 static const char *playerprevious[] = { "playerctl", "previous", NULL};
 static const char *playerpause[] = { "playerctl", "play-pause", NULL};
-static const char *spoticli[] = { "spoticli", "m", NULL};
 
 #include "push.c"
 
@@ -453,7 +444,6 @@ static const Key dkeys[] = {
 	{0,          XK_f,      spawn,       {.v = firefoxcmd} },
 	{0,          XK_a,      spawn,       {.v = instantassistcmd} },
 	{0,          XK_F1,     spawn,       {.v = helpcmd} },
-	{0,          XK_m,      spawn,       {.v = spoticli} },
 	{0,          XK_Return, spawn,       {.v = termcmd} },
 	{0,          XK_plus,   spawn,       {.v = upvol} },
 	{0,          XK_minus,  spawn,       {.v = downvol} },
@@ -502,7 +492,6 @@ static Key keys[] = {
 	{MODKEY,                                XK_y,               spawn,                {.v = panther} },
 	{MODKEY,                                XK_a,               spawn,                {.v = instantassistcmd} },
 	{MODKEY|ShiftMask,                      XK_a,               spawn,                {.v = instantrepeatcmd} },
-	{MODKEY|ControlMask,                    XK_i,               spawn,                {.v = instantpacmancmd} },
 	{MODKEY|ShiftMask,                      XK_i,               spawn,                {.v = instantsharecmd} },
 	{MODKEY,                                XK_w,               setoverlay,           {0} },
 	{MODKEY|ControlMask,                    XK_w,               createoverlay,        {0} },
@@ -665,7 +654,6 @@ static const Button buttons[] = {
 	{ ClkStatusText,  MODKEY|ShiftMask,   Button1, spawn,             {.v = pavucontrol } },
 	{ ClkStatusText,  MODKEY|ControlMask, Button1, spawn,             {.v = notifycmd } },
 	{ ClkStatusText,  MODKEY,             Button1, spawn,             {.v = instantsettings } },
-	{ ClkStatusText,  MODKEY,             Button3, spawn,             {.v = spoticli } },
 	{ ClkStatusText,  MODKEY,             Button4, spawn,             {.v = upbright } },
 	{ ClkStatusText,  MODKEY,             Button5, spawn,             {.v = downbright } },
 	{ ClkRootWin,     MODKEY,             Button3, spawn,             {.v = notifycmd } },
